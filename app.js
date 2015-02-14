@@ -21,6 +21,11 @@ var Carousel = mongoose.model('Carousel', {
     department: String
 });
 
+var Department = mongoose.model('Department', {
+    key: String,
+    name: String
+});
+
 // status
 
 router.get('/status/ping', function(req, res) {
@@ -66,14 +71,48 @@ router.post('/carousels', function(req, res) {
     });
 
     carousel.save(function () {
-        res.send('inserted!');
+        res.send('created!');
     });
 });
 
 router.delete('/carousels', function(req, res) {
-    Carousel.where().findOneAndRemove({
+    Carousel.findOneAndRemove({
         key: req.body.key,
         department: req.body.department
+    }, function () {
+        res.send('removed!');
+    });
+});
+
+// departments
+
+router.get('/departments', function(req, res) {
+    Department.find(function (err, elem) {
+        if (err) return res.send(err);
+        if (elem) {
+            var response = {
+                'collection': req.params.department,
+                'items': elem
+            };
+            res.send(response);
+        }
+    });
+});
+
+router.post('/departments', function(req, res) {
+    var department = new Department({
+        key: req.body.key,
+        name: req.body.name
+    });
+
+    department.save(function () {
+        res.send('created!');
+    });
+});
+
+router.delete('/departments', function(req, res) {
+    Department.findOneAndRemove({
+        key: req.body.key
     }, function () {
         res.send('removed!');
     });
