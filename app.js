@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mobiusModule = require('./lib/mobiusClient');
 var mongooseModule = require('./lib/mongooseClient');
 var appConfig = require('./config/config.json');
+var docs = require('express-mongoose-docs');
 var router = express.Router();
 
 var mobiusIns = mobiusModule(appConfig.mobius);
@@ -175,6 +176,8 @@ router.delete('/removeOffer/:id', function(req, res) {
 });
 
 app.use('/', router);
+
+docs(app, mongoose);
 
 app.listen(8080, function () {
     console.log('server started!');
