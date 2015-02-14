@@ -26,25 +26,19 @@ var Department = mongoose.model('Department', {
     name: String
 });
 
+var Offer = mongoose.model('Offer', {
+    department: String,
+    carousel: String,
+    id: String,
+    name: String,
+    mainImage: String
+});
+
 // status
 
 router.get('/status/ping', function(req, res) {
   res.send('pong')
 })
-
-// getOffer
-
-router.get('/getOffer/:id', function(req, res) {
-    var offerId = req.params.id;
-
-    mobiusIns.getOffer(offerId, function (error, offer) {
-        if (error) {
-            res.status(404).send();
-        } else {
-            res.send(offer);
-        }
-    });
-});
 
 // carousels
 
@@ -113,6 +107,68 @@ router.post('/departments', function(req, res) {
 router.delete('/departments', function(req, res) {
     Department.findOneAndRemove({
         key: req.body.key
+    }, function () {
+        res.send('removed!');
+    });
+});
+
+// offers
+
+router.get('/getOffer/:id', function(req, res) {
+    var offerId = req.params.id;
+
+    mobiusIns.getOffer(offerId, function (error, data) {
+        if (error) {
+            res.status(404).send();
+        } else {
+            res.send(data);
+        }
+    });
+});
+
+router.get('/getOffers/:department/:carousel', function(req, res) {
+    Offer.where({
+        department: req.params.department,
+        carousel: req.params.carousel
+    }).find(function (err, elem) {
+        if (err) return res.send(err);
+        if (elem) {
+            var response = {
+                'collection': req.params.department,
+                'items': elem
+            };
+            res.send(response);
+        }
+    });
+});
+
+router.post('/addOffer/:id', function(req, res) {
+    var offerId = req.params.id;
+
+    mobiusIns.getOffer(offerId, function (error, data) {
+        if (error) {
+            res.status(404).send();
+        } else {
+            var offer = new Offer({
+                department: req.body.department,
+                carousel: req.body.carousel,
+                id: data.id,
+                name: data.name,
+                mainImage: data.mainImage.small
+            });
+
+            offer.save(function () {
+                res.send('created!');
+            });
+        }
+    });
+});
+
+router.delete('/removeOffer/:id', function(req, res) {
+    Offer.findOneAndRemove({
+        id: req.params.id,
+        department: req.body.department,
+        carousel: req.body.carousel
     }, function () {
         res.send('removed!');
     });
