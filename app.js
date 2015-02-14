@@ -58,7 +58,7 @@ router.get('/carousels/:department', function(req, res) {
     });
 });
 
-router.post('/carousels', function(req, res) {
+router.post('/carousel', function(req, res) {
     var carousel = new Carousel({
         key: req.body.key,
         name: req.body.name,
@@ -70,7 +70,7 @@ router.post('/carousels', function(req, res) {
     });
 });
 
-router.delete('/carousels', function(req, res) {
+router.delete('/carousel', function(req, res) {
     Carousel.findOneAndRemove({
         key: req.body.key,
         department: req.body.department
@@ -94,7 +94,7 @@ router.get('/departments', function(req, res) {
     });
 });
 
-router.post('/departments', function(req, res) {
+router.post('/department', function(req, res) {
     var department = new Department({
         key: req.body.key,
         name: req.body.name
@@ -105,7 +105,7 @@ router.post('/departments', function(req, res) {
     });
 });
 
-router.delete('/departments', function(req, res) {
+router.delete('/department', function(req, res) {
     Department.findOneAndRemove({
         key: req.body.key
     }, function () {
@@ -115,7 +115,7 @@ router.delete('/departments', function(req, res) {
 
 // offers
 
-router.get('/getOffer/:id', function(req, res) {
+router.get('/offer/:id', function(req, res) {
     var offerId = req.params.id;
 
     mobiusIns.getOffer(offerId, function (error, data) {
@@ -127,7 +127,7 @@ router.get('/getOffer/:id', function(req, res) {
     });
 });
 
-router.get('/getOffers/:department/:carousel', function(req, res) {
+router.get('/offers/:department/:carousel', function(req, res) {
     Offer.where({
         department: req.params.department,
         carousel: req.params.carousel
@@ -143,7 +143,7 @@ router.get('/getOffers/:department/:carousel', function(req, res) {
     });
 });
 
-router.post('/addOffer/:id', function(req, res) {
+router.post('/offer/:id', function(req, res) {
     var offerId = req.params.id;
 
     mobiusIns.getOffer(offerId, function (error, data) {
@@ -165,7 +165,7 @@ router.post('/addOffer/:id', function(req, res) {
     });
 });
 
-router.delete('/removeOffer/:id', function(req, res) {
+router.delete('/offer/:id', function(req, res) {
     Offer.findOneAndRemove({
         id: req.params.id,
         department: req.body.department,
