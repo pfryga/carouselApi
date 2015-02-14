@@ -1,0 +1,24 @@
+{
+  "name": "carouselApi",
+  "version": "1.0.0",
+  "description": "Rest API for carousel-service with NodeJS",
+  "main": "app.js",
+  "scripts": {
+    "serve": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pfryga/carouselApi.git"
+  },
+  "author": "piotr.fryga@allegro.pl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pfryga/carouselApi/issues"
+  },
+  "homepage": "https://github.com/pfryga/carouselApi",
+  "dependencies": {
+    "base64": "^2.1.0",
+    "express": "^4.11.2",
+    "request": "^2.53.0"
+  }
+}
