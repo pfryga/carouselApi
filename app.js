@@ -35,10 +35,18 @@ var Offer = mongoose.model('Offer', {
     mainImage: String
 });
 
+// cors
+
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+
 // status
 
 router.get('/status/ping', function(req, res) {
-  res.send('pong')
+    res.send('pong')
 })
 
 // carousels
